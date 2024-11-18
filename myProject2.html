@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Visualizations</title>
+    <!-- Load the D3.js Library -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<body>
+    <h1>My Visualizations</h1>
+
+    <!-- D3.js Bar Chart -->
+    <p>This is my D3.js bar chart:</p>
+    <div id="my_dataviz"></div>
+    <script>
+        // Set chart dimensions and margins
+        var margin = { top: 30, right: 30, bottom: 70, left: 60 },
+            width = 460 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        // Append an SVG container to the #my_dataviz div
+        var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // Load the dataset from a CSV file
+        d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function(data) {
+            // Create the X scale and axis
+            var x = d3.scaleBand()
+                .range([0, width])
+                .domain(data.map(function(d) { return d.Country; }))
+                .padding(0.2);
+
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Create the Y scale and axis
+            var y = d3.scaleLinear()
+                .domain([0, 13000])
+                .range([height, 0]);
+
+            svg.append("g").call(d3.axisLeft(y));
+
+            // Add bars with a transition effect
+            svg.selectAll("mybar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("x", function(d) { return x(d.Country); })
+                .attr("y", height)
+                .attr("width", x.bandwidth())
+                .attr("height", 0)
+                .attr("fill", "#69b3a2")
+                .transition()
+                .duration(800)
+                .attr("y", function(d) { return y(d.Value); })
+                .attr("height", function(d) { return height - y(d.Value); });
+        });
+    </script>
+
+    <!-- Tableau Visualization 1 -->
+    <p>This is my first Tableau visualization:</p>
+    <div class='tableauPlaceholder' id='viz1731901393223' style='position: relative'>
+        <noscript>
+            <a href='#'>
+                <img alt='Monthly Sales Trend ' src='https://public.tableau.com/static/images/la/lab4_1_17317117694860/MonthlySalesTrend/1_rss.png' style='border: none' />
+            </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+            <param name='embed_code_version' value='3' /> 
+            <param name='name' value='lab4_1_17317117694860/MonthlySalesTrend' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/la/lab4_1_17317117694860/MonthlySalesTrend/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+        </object>
+    </div>
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1731901393223');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width='100%';
+        vizElement.style.height=(divElement.offsetWidth * 0.75) + 'px';
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+    <!-- Tableau Visualization 2 -->
+    <p>This is my second Tableau visualization:</p>
+    <div class='tableauPlaceholder' id='viz1731902716834' style='position: relative'>
+        <noscript>
+            <a href='#'>
+                <img alt='Sheet 1 ' src='https://public.tableau.com/static/images/la/lab4_2_17309233156550/Sheet1/1_rss.png' style='border: none' />
+            </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+            <param name='embed_code_version' value='3' /> 
+            <param name='name' value='lab4_2_17309233156550/Sheet1' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/la/lab4_2_17309233156550/Sheet1/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+        </object>
+    </div>
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1731902716834');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width='100%';
+        vizElement.style.height=(divElement.offsetWidth * 0.75) + 'px';
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+    <!-- Tableau Visualization 3 -->
+    <p>This is my third Tableau visualization:</p>
+    <div class='tableauPlaceholder' id='viz1731903235285' style='position: relative'>
+        <noscript>
+            <a href='#'>
+                <img alt='Story 1 ' src='https://public.tableau.com/static/images/Ta/TableuLab_17315334802240/Story1/1_rss.png' style='border: none' />
+            </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+            <param name='embed_code_version' value='3' /> 
+            <param name='name' value='TableuLab_17315334802240/Story1' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/Ta/TableuLab_17315334802240/Story1/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+        </object>
+    </div>
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1731903235285');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width='1016px';
+        vizElement.style.height='991px';
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+</body>
+</html>
