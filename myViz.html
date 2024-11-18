@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Visualization</title>
-    <!-- Load D3.js Library -->
+    <title>My D3.js Bar Chart</title>
+    <!-- Load the D3.js Library -->
     <script src="https://d3js.org/d3.v4.js"></script>
 </head>
 <body>
@@ -13,14 +13,12 @@
     <div id="my_dataviz"></div>
 
     <script>
-        // Code from your example
-
-        // set the dimensions and margins of the graph
-        var margin = {top: 30, right: 30, bottom: 70, left: 60},
+        // Set chart dimensions and margins
+        var margin = { top: 30, right: 30, bottom: 70, left: 60 },
             width = 460 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
 
-        // append the svg object to the body of the page
+        // Append an SVG container to the #my_dataviz div
         var svg = d3.select("#my_dataviz")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -28,11 +26,11 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // Parse the Data
+        // Load the dataset from a CSV file
         d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function(data) {
-            // X axis
+            // Create the X scale and axis
             var x = d3.scaleBand()
-                .range([ 0, width ])
+                .range([0, width])
                 .domain(data.map(function(d) { return d.Country; }))
                 .padding(0.2);
             svg.append("g")
@@ -42,23 +40,27 @@
                 .attr("transform", "translate(-10,0)rotate(-45)")
                 .style("text-anchor", "end");
 
-            // Y axis
+            // Create the Y scale and axis
             var y = d3.scaleLinear()
                 .domain([0, 13000])
-                .range([ height, 0]);
+                .range([height, 0]);
             svg.append("g")
                 .call(d3.axisLeft(y));
 
-            // Bars
+            // Add bars with a transition effect
             svg.selectAll("mybar")
                 .data(data)
                 .enter()
                 .append("rect")
                 .attr("x", function(d) { return x(d.Country); })
-                .attr("y", function(d) { return y(d.Value); })
+                .attr("y", height)
                 .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.Value); })
-                .attr("fill", "#69b3a2");
+                .attr("height", 0)
+                .attr("fill", "#69b3a2")
+                .transition()
+                .duration(800)
+                .attr("y", function(d) { return y(d.Value); })
+                .attr("height", function(d) { return height - y(d.Value); });
         });
     </script>
 </body>
